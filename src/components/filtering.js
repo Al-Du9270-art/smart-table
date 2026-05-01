@@ -18,7 +18,7 @@ export function initFiltering(elements, indexes) {
      })
     return (data, state, action) => {
         // @todo: #4.2 — обработать очистку поля
-        if(action.classList.contains("clear")){
+        if(action && action.classList && action.classList.contains("clear")){
             const parent = action.parentElement;
             const input = parent.querySelector('input');
             const field = action.dataset.field;
