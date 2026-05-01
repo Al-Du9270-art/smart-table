@@ -4,11 +4,22 @@ import {createComparison, defaultRules} from "../lib/compare.js";
 
 export function initFiltering(elements, indexes) {
     // @todo: #4.1 — заполнить выпадающие списки опциями
-
+    Object.keys(indexes)                                    // Получаем ключи из объекта
+      .forEach((elementName) => {                        // Перебираем по именам
+        elements[elementName].append(                    // в каждый элемент добавляем опции
+            ...Object.values(indexes[elementName])        // формируем массив имён, значений опций
+                      .map(name => {                        // используйте name как значение и текстовое содержимое
+                        let opt = document.createElement("option");
+                        opt.setAttribute('value', name);
+                        opt.textContent = name;
+                        return opt                      // @todo: создать и вернуть тег опции
+                      })
+        )
+     })
     return (data, state, action) => {
         // @todo: #4.2 — обработать очистку поля
-
+        const compare = createComparison(defaultRules);
         // @todo: #4.5 — отфильтровать данные используя компаратор
-        return data;
+        return data.filter(row => compare(row, state));
     }
 }
