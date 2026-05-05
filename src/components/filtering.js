@@ -27,6 +27,18 @@ export function initFiltering(elements, indexes) {
         }
         
         // @todo: #4.5 — отфильтровать данные используя компаратор
-        return data.filter(row => compare(row, state));
+        
+        const from = state.totalFrom !== '' && state.totalFrom != null ? Number(state.totalFrom) : null;
+        const to = state.totalTo !== '' && state.totalTo != null ? Number(state.totalTo) : null;
+
+        return data.filter((row) => {
+            const total = Number(row.total);
+
+            if (from !== null && total < from) return false;
+            if (to !== null && total > to) return false;
+
+            const { totalFrom, totalTo, ...restState } = state;
+            return compare(row, restState);
+        });
     }
 }
